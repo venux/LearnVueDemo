@@ -1,0 +1,132 @@
+<html>
+
+<head>
+    <title>1.Start</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!--声明式渲染-->
+        <div class="test-div">
+            <h3>声明式渲染</h3>
+            <div class="test-content">
+                {{message}}
+                <button id="changeMessageBtn">更改文本</button>
+            </div>
+        </div>
+        <br>
+        <!--指令测试-->
+        <div class="test-div">
+            <h3>指令测试</h3>
+            <div class="test-content">
+                <span v-bind:title="message2">
+                    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+                </span>
+            </div>
+        </div>
+        <br>
+        <!--条件测试-->
+        <div class="test-div">
+            <h3>条件测试</h3>
+            <div class="test-content">
+                <p v-if="isVisible">条件测试是否可见性！</p>
+                <button id="changeVisibleBtn">更改可见性</button>
+            </div>
+        </div>
+        <br>
+        <!--循环测试-->
+        <div class="test-div">
+            <h3>循环测试</h3>
+            <div class="test-content">
+                <ol>
+                    <li v-for="item in list">
+                        {{item.Name}}
+                    </li>
+                </ol>
+                <button id="addItemBtn">更改文本</button>
+            </div>
+        </div>
+        <br>
+        <!--事件测试-->
+        <div class="test-div">
+            <h3>事件测试</h3>
+            <div class="test-content">
+                <p>{{message}}</p>
+                <button v-on:click="eventTest">事件测试更改文本</button>
+            </div>
+        </div>
+        <br>
+
+        <!--v-model 指令测试-->
+        <div class="test-div">
+            <h3>v-model 指令测试</h3>
+            <div class="test-content">
+                <p>{{message3}}</p>
+                <input v-model="message3" />
+            </div>
+        </div>
+        <br>
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello,Vue!",
+                message2: "当前时间：" + new Date().toLocaleDateString(),
+                isVisible: true,
+                list: [
+                    { Name: "Test1" },
+                    { Name: "Test2" },
+                    { Name: "Test3" }
+                ],
+                message3: "v-model测试"
+            },
+            methods: {
+                eventTest: function () {
+                    this.message = "事件测试，更改文本成功！"
+                }
+            }
+        })
+
+        //改变文本
+        bindClick("changeMessageBtn", function (e) {
+            app.message = "Change the message to test.";
+        });
+
+        //改变可见性
+        bindClick("changeVisibleBtn", function (e) {
+            app.isVisible = !app.isVisible;
+        });
+
+        //新增元素
+        bindClick("addItemBtn", function (e) {
+            app.list.push({ Name: "Test" + Math.round(Math.random() * 100) });
+        });
+
+        //绑定点击事件
+        function bindClick(btnId, clickCallback) {
+            document.getElementById(btnId).addEventListener("click", function (e) {
+                clickCallback(e)
+            });
+        }
+    </script>
+</body>
+
+</html>

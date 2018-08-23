@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <title>6.计算属性和侦听器</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <!-- 因为 AJAX 库和通用工具的生态已经相当丰富，Vue 核心代码没有重复 -->
+    <!-- 提供这些功能以保持精简。这也可以让你自由选择自己更熟悉的工具。 -->
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="test-div">
+            <h3>计算属性</h3>
+            <div class="test-content">
+                <p>
+                    <label>转换前字符串：</label>
+                    <span>{{message}}</span>
+                </p>
+                <p>
+                    <label>转换后字符串：</label>
+                    <span>{{reversedMessage}}</span>
+                </p>
+                <p>
+                    <b>计算属性是基于它们的依赖进行缓存的。</b>只在相关依赖发生改变时它们才会重新求值。 这就意味着只要 message 还没有发生改变，多次访问 reversedMessage 计算属性会立即返回之前的计算结果，而不必再次执行函数。
+                    相比之下，每当触发重新渲染时，调用方法将总会再次执行函数。
+                </p>
+            </div>
+        </div>
+        <br>
+
+        <div id="app">
+            <div class="test-div">
+                <h3>侦听属性</h3>
+                <div class="test-content">
+                    <p>
+                        请输入一个问题：<input v-model="question">
+                    </p>
+                    <p>{{answer}}</p>
+                </div>
+            </div>
+            <br>
+        </div>
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    message: "H e l l o , w o r l d !",
+                    question: '',
+                    answer: '问题内容不能为空！'
+                },
+                created: function () {
+                    // `_.debounce` 是一个通过 Lodash 限制操作频率的函数。
+                    // 在这个例子中，我们希望限制访问 yesno.wtf/api 的频率
+                    // AJAX 请求直到用户输入完毕才会发出。想要了解更多关于
+                    // `_.debounce` 函数 (及其近亲 `_.throttle`) 的知识，
+                    // 请参考：https://lodash.com/docs#debounce
+                    this.debouncedGetAnswer = _.debounce(this.getAnswer, 500)
+                },
+                computed: {
+                    reversedMessage: function () {
+                        return this.message.split(' ').reverse().join(' ')
+                    }
+                },
+                watch: {
+                    //侦听属性变化，自动调用该函数
+                    question: function (newValue, oldValue) {
+                        this.answer = "等待输入完成...";
+                        this.debouncedGetAnswer();
+                    }
+                },
+                methods: {
+                    getAnswer: function () {
+                        if (this.question.indexOf('?') == -1) {
+                            this.answer = '问题通常需要包含一个问号。';
+                            return;
+                        }
+
+                        this.answer = '查找答案中...';
+
+                        var vm = this;
+
+                        axios.get('https://yesno.wtf/api')
+                            .then(function (response) {
+                                vm.answer = _.capitalize(response.data.answer);
+                            }).catch(function (error) {
+                                vm.answer = '发生错误，无法请求API，具体情况：' + error;
+                            });
+                    }
+                }
+            })
+        </script>
+</body>
+
+</html>

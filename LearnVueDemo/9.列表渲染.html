@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <title>9.列表渲染</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="test-div">
+            <h3>v-for</h3>
+            <div class="test-content">
+                <ul>
+                    <li v-for="(item,index) in items">
+                        {{index}}.{{item.message}}
+                    </li>
+                </ul>
+            </div>
+            <br/>
+            <div v-for="(value,key,index) in object">
+                {{index}}.{{key}}:{{value}}
+            </div>
+        </div>
+        <br>
+
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    items: [
+                        { message: 'Foo' },
+                        { message: 'Bar' }
+                    ],
+                    object: {
+                        firstName: 'Venux',
+                        lastName: 'Lu',
+                        age: 27
+                    }
+                }
+            })
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <title>7.Class与Style绑定</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="test-div">
+            <h3>绑定HTML Class</h3>
+            <div class="test-content">
+                <div class="class1" v-bind:class="[{active:isActive},classArr]">
+                    激活状态：{{isActive}}
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="test-div">
+            <h3>绑定内联样式</h3>
+            <div class="test-content">
+                <div :style="{color:activeColor,fontSize:fontSize+'px'}">
+                    激活状态：{{isActive}}
+                </div>
+            </div>
+        </div>
+        <br>
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    isActive: true,
+                    activeColor: 'red',
+                    fontSize: 30,
+                    classArr: ["testClass1"]
+                }
+            })
+        </script>
+</body>
+
+</html>

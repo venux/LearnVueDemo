@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>3.ComponentWithProp</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <ol>
+            <!-- 创建一个 todo-item 组件的实例 -->
+            <todo-item v-for="item in list" v-bind:todo="item" v-bind:key="item.id">
+
+            </todo-item>
+        </ol>
+    </div>
+    <script>
+
+        // 定义名为 todo-item 的新组件
+        Vue.component('todo-item', {
+            //类似于自定义属性
+            props: ['todo'],
+            template: '<li> {{todo.text}}</li>'
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                list: [
+                    { id: 1, text: "Test1" },
+                    { id: 2, text: "Test2" },
+                    { id: 3, text: "Test3" }
+                ]
+            }
+        });
+
+    </script>
+</body>
+
+</html>

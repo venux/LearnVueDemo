@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <title>4.Vue实例</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <span>{{message}}</span>
+        <!-- <span>{{message2}}</span> -->
+    </div>
+    <script>
+        var data = {
+            message: 'Vue实例一节测试案例'
+        };
+
+        // //冻结对象，测试
+        // Object.freeze(data);
+
+        var app = new Vue({
+            el: "#app",
+            data: data,
+
+            //生命周期钩子
+            created: function () {
+                console.log("vue实例在生命周期已创建阶段。")
+
+                console.log("该函数内部可使用this变量表示Vue实例。message为：" + this.message);
+            }
+        });
+
+        // console.log(data.message == app.message);
+
+        // data.message = 'Vue实例一节测试案例-对象更改。';
+        // console.log(data.message == app.message);
+
+        // app.message = 'Vue实例一节测试案例-实例更改。';
+        // console.log(data.message == app.message);
+
+        // app.message2 = "新增message2属性以便测试响应式。";
+        // console.log(data.message2 + "    " + app.message2);
+        // //在控制台修改app.message2以便测试响应式。
+
+
+        // data.message = '冻结测试，响应系统无法再追踪变化。'
+
+        console.log("app.$data === data结果为：" + (app.$data === data));
+
+        console.log("app.$el === document.getElementById('app')结果为：" + (app.$el === document.getElementById('app')));
+
+        //message属性改变时候调用
+        app.$watch('message', function (newValue, oldValue) {
+            console.log("message属性已改变，旧值：" + oldValue + "，新值：" + newValue);
+        });
+
+    </script>
+</body>
+
+</html>

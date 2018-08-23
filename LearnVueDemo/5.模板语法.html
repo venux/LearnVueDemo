@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>5.模板语法</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="test-div">
+            <h3>插值-文本</h3>
+            <div class="test-content">
+                <span>{{message}}</span>
+                <span v-once>通过使用 v-once 指令，你也能执行一次性地插值，当数据改变时，插值处的内容不会更新。但请留心这会影响到该节点上的其它数据绑定。测试：{{message2}}</span>
+            </div>
+        </div>
+        <br>
+
+        <div class="test-div">
+            <h3>插值-原生HTML</h3>
+            <div class="test-content">
+                <span>{{rawHtml}}</span>
+                <span v-html="rawHtml"></span>
+            </div>
+        </div>
+        <br>
+
+        <div class="test-div">
+            <h3>插值-特性</h3>
+            <div class="test-content">
+                <div v-bind:id="dynamicId">ID特性测试</div>
+                <button v-bind:disabled="isButtonDisabled">按钮禁用特性</button>
+            </div>
+        </div>
+        <br>
+
+        <div class="test-div">
+            <h3>指令缩写</h3>
+            <div class="test-content">
+                <div :id="dynamicId2">ID特性测试</div>
+                <button @click.prevent="btnClick">事件缩写测试按钮</button>
+            </div>
+        </div>
+        <br>
+
+    </div>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello,Vue!",
+                message2: "当前时间：" + new Date().toLocaleDateString(),
+                rawHtml: "<span style='color:red;'>这是元素字符串测试</span>",
+                dynamicId: "testId",
+                isButtonDisabled: false,
+                dynamicId2: "testId2"
+            },
+            methods: {
+                btnClick: function () {
+                    alert("指令缩写测试");
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>

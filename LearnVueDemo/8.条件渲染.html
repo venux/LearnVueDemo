@@ -1,0 +1,92 @@
+<html>
+
+<head>
+    <title>8.条件渲染</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+        .test-div {
+            padding: 5px;
+        }
+
+        .test-div h3 {
+            font: 300;
+            color: red;
+            text-align: center;
+            line-height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="test-div">
+            <h3>v-if、v-else、v-else-if</h3>
+            <div class="test-content">
+                <p>测试数字为：{{num}}。</p>
+                <p v-if="num===0">数字为0。</p>
+                <p v-else-if="num>0&&num<=10">满足于条件大于0小于等于10。</p>
+                <template v-else>
+                    <p>大于10才显示。</p>
+                    <p>
+                        因为 v-if 是一个指令，所以必须将它添加到一个元素上。但是如果想切换多个元素呢？ 此时可以把一个 template 元素当做不可见的包裹元素，并在上面使用 v-if。最终的渲染结果将不包含 template 元素。
+                    </p>
+                </template>
+            </div>
+            <br/>
+
+            <div class="test-div">
+                <h3>用Key管理复用情况</h3>
+                <div class="test-content">
+                    <p>
+                        请输入测试数字：<input v-model:value="num" />
+                    </p>
+                    <p>
+                        请输入是否包含key：<input v-model:value="hasKey" />
+                    </p>
+                    <template v-if="num>0">
+                        <label>Username</label>
+                        <input placeholder="Enter your username" v-bind:key="userNameKey" />
+                    </template>
+                    <template v-else>
+                        <label>Email</label>
+                        <input placeholder="Enter your email address" v-bind:key="emailKey" />
+                    </template>
+                </div>
+            </div>
+            <br/>
+
+            <div class="test-div">
+                <h3>v-show</h3>
+                <div class="test-content">
+                    <p v-show="isShow">不同的是带有 v-show 的元素始终会被渲染并保留在 DOM 中。v-show 只是简单地切换元素的 CSS 属性 display。</p>
+                </div>
+            </div>
+            <br/>
+
+        </div>
+        <br>
+
+        <script>
+            var app = new Vue({
+                el: "#app",
+                data: {
+                    num: 10,
+                    hasKey: true,
+                    isShow: true
+                },
+                computed: {
+                    userNameKey: function () {
+                        return this.hasKey ? "userNameCtrl" : "";
+                    },
+                    emailKey: function () {
+                        return this.hasKey ? "emailKey" : "";
+                    }
+                }
+            })
+        </script>
+</body>
+
+</html>
